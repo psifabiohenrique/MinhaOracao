@@ -1,18 +1,34 @@
-import { Text, View } from "react-native";
-import BtnChoice from "@/components/btnChoice";
-import { useState } from "react";
-import ViewMenu from "@/components/viewMenu";
+import ViewMenu from "@/components/ViewMenu";
+import ViewRosary from "@/components/ViewRosary";
+import MenuScreenManager from "@/hooks/MenuScreenManager";
 
 export default function Index() {
-  const [tela, setTela] = useState('Menu')
-  if(tela === 'Menu') {
+  const {screen, setScreen} = MenuScreenManager()
+
+  if(screen === 'Menu') {
     return (
-      <ViewMenu tela={tela} setTela={setTela}/>  
+      <ViewMenu screen={screen} startPray={setScreen}/>  
     )
   }
-  else {
+  if(screen == 'Dolorosos') {
     return (
-      <ViewMenu tela={tela} setTela={setTela}/>  
+      <ViewRosary misteryName={'Doloroso'} endPray={setScreen}/>  
     )
   }
+  if(screen == 'Gloriosos') {
+    return (
+      <ViewRosary misteryName="Glorioso" endPray={setScreen}/>  
+    )
+  }
+  if(screen == 'Luminosos') {
+    return (
+      <ViewRosary misteryName="Luminoso" endPray={setScreen}/>  
+    )
+  }
+  if(screen == 'Gozosos') {
+    return (
+      <ViewRosary misteryName="Gozoso" endPray={setScreen}/>  
+    )
+  }
+
 }

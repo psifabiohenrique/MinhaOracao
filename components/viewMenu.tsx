@@ -1,9 +1,9 @@
 import { Text, View } from "react-native";
-import BtnChoice from "@/components/btnChoice";
+import BtnChoice from "@/components/BtnChoice";
 
 export interface ViewMenuProps {
-    tela: string,
-    setTela: Function
+    screen: string,
+    startPray: Function
 }
 
 export default function ViewMenu(props: ViewMenuProps) {
@@ -17,12 +17,12 @@ export default function ViewMenu(props: ViewMenuProps) {
         backgroundColor: '#ADD8E6'
         }}
         >
-        <Text>{props.tela}</Text>
+        <Text>{props.screen}</Text>
         <Text style={{fontSize: 25, fontWeight: 'bold', textAlign: 'center'}}>Escolha o terço que gostaria de rezar</Text>
-        <BtnChoice text={'Mistérios Dolorosos'} onPress={() => props.setTela('Dolorosos')}/>
-        <BtnChoice text={'Mistérios Gloriosos'} onPress={() => props.setTela('Gloriosos')}/>
-        <BtnChoice text={'Mistérios Luminosos'} onPress={() => props.setTela('Luminosos')}/>
-        <BtnChoice text={'Mistérios Gozosos'} onPress={() => props.setTela('Gozosos')}/>
+        <BtnChoice text={'Mistérios Dolorosos'} onPress={() => props.startPray('Dolorosos')}/>
+        <BtnChoice text={'Mistérios Gloriosos'} onPress={() => props.startPray('Gloriosos')}/>
+        <BtnChoice text={'Mistérios Luminosos'} onPress={() => props.startPray('Luminosos')}/>
+        <BtnChoice text={'Mistérios Gozosos'} onPress={() => props.startPray('Gozosos')}/>
         </View>
     )
 }
