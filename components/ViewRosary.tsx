@@ -1,5 +1,6 @@
 import { View, Text, Pressable, StyleSheet, ImageBackground } from "react-native";
-import prays from "@/constants/Prays";
+// import {begningOrder, endOrder, prays, praysNames, misterys} from "@/constants/Prays";
+import Getpray from "@/constants/Prays";
 import { useState } from "react";
 
 export interface ViewRosaryProps {
@@ -7,45 +8,37 @@ export interface ViewRosaryProps {
     endPray: (screen: string) => void
 }
 
+const prayOrder = new Getpray()
+
+
 export default function ViewRosary(props: ViewRosaryProps) {
     const imageBackground = require('@/assets/images/NossaSenhora.jpeg')
-    const [mistery, setMistery] = useState(1)
-    const [prayNumber, setPrayNumber] = useState(1)
+
+    prayOrder.mistery = props.misteryName
+    
+    const [misteryText, setMisteryText] = useState(prayOrder.misteryText)
+    const [pray, setPray] = useState(prayOrder.pray)
+    const [prayName, setPrayName] = useState(prayOrder.prayName)
 
     function nextPray() {
-        if(prayNumber < 10) {
-            setPrayNumber(prayNumber + 1)
+        prayOrder.nextPray()
+        if(!prayOrder.prayFinished){
+            setMisteryText(prayOrder.misteryText)
+            setPray(prayOrder.pray)
+            setPrayName(prayOrder.prayName)
         } else {
-            if (mistery < 5) {
-                setMistery(mistery + 1)
-                setPrayNumber(1)
-            } else {
-                props.endPray('Menu')
-            }
+            props.endPray('Menu')
         }
     }
-    function previewsPray() {
-        if(prayNumber > 1) {
-            setPrayNumber(prayNumber - 1)
-        } else {
-            if (mistery > 1) {
-                setMistery(mistery - 1)
-                setPrayNumber(10)
-            } else {
-                props.endPray('Menu')
-            }
-        }
-    }
-
 
     return (
         <ImageBackground style={styles.image} source={imageBackground}>
-            <Text style={styles.textIndex}>
-                {mistery}° Misterio {props.misteryName}{'\n'} {prayNumber}ª Ave Maria
-            </Text>
-            <Text style={styles.textTitle}>Ave Maria</Text>
+                <Text style={misteryText ? styles.textIndex : {}}>
+                    {misteryText}
+                </Text>
+            <Text style={styles.textTitle}>{prayName}</Text>
             <Text style={styles.textPray}>
-                {prays['aveMaria']}
+                {pray}
             </Text>
             <View style={styles.container}>
                 <Pressable style={[styles.buttonBackward, styles.buttons]} onPress={() => previewsPray()}>
