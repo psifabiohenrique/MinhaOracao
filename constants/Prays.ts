@@ -167,6 +167,80 @@ export default class Getpray {
         this.prayName = this.prayName
         this.misteryText = this.misteryText
     }
+    PreviousPray() {
+       
+        if(this.endDones.length == this.endOrder.length) {
+            this.prayFinished = true
+        }
+
+        let prayIndex = ''
+        let prayNumber = 0
+
+        // First part of the rosary
+        if(this.prayStatus == 'begining') {
+            prayIndex = this.begningOrder[this.begningDones.length]
+            this.pray = this.prays[prayIndex]
+            if(prayIndex == 'aveMaria') {
+                this.prayName = `${this.initialHailMary}ª - ${this.praysNames[prayIndex]}`
+                this.initialHailMary++
+            } else this.prayName = this.praysNames[prayIndex]
+            this.begningDones.push(this.prayName)
+            if(this.begningDones.length == this.begningOrder.length) {
+                this.prayStatus = 'mistery'
+            }
+        }
+        // Second part of the rosary
+        else if(this.prayStatus == 'mistery') {
+            
+            for(let i = 0; i < this.misterysDones.length; i++){
+                let array = this.misterysDones[i]
+                if(array.length <= 11) {
+                    if(array.length == 1) {
+                        prayIndex = 'paiNosso'
+                        this.prayName = `${this.praysNames[prayIndex]}`
+                        
+                    } else if(array.length == 0) {
+                        this.pray = this.misterys[this.mistery][i]
+                        this.prayName = 'Contemplação'
+                        this.misterysDones[i].push(this.prayName)
+                        this.MisteryHailMary = 1
+                        this.misteryText = `${i + 1}° mistério`
+                        break
+                    } else {
+                        prayIndex = 'aveMaria'
+                        prayNumber = array.length
+                        this.prayName = `${this.MisteryHailMary}ª - ${this.praysNames[prayIndex]}`
+                        this.MisteryHailMary++
+                    }
+                    this.pray = this.prays[prayIndex]
+                    this.misteryText = `${i + 1}° mistério`
+                    this.misterysDones[i].push(this.prayName)
+
+                    if(this.misterysDones[4].length == 12) {
+                        this.misteryText = ''
+                        this.prayStatus = 'end'
+                    }
+                    break
+                }
+            }
+        }  
+        // thrird part of the rosary
+        else if(this.prayStatus == 'end') {
+            if (this.endDones.length >= 0) {
+                prayIndex = this.endOrder[this.endDones.length - 1]
+                this.pray = this.prays[prayIndex]
+                this.prayName = this.praysNames[prayIndex]
+                this.endDones.push(this.prayName)
+            } else {
+                this.prayStatus = 'mistery'
+            }
+        }
+        
+        // update variables
+        this.pray = this.pray
+        this.prayName = this.prayName
+        this.misteryText = this.misteryText
+    }
 }
 
 

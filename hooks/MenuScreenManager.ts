@@ -1,12 +1,12 @@
 import { useState } from "react";
 
 export default function MenuScreenManager() {
-    const [screen, setScreen] = useState('Menu')
+    const [rosary, setRosary] = useState('Doloroso')
 
     return {
-        get screen() {
-            return screen
+        get rosary() {
+            return rosary
         },
-        setScreen,
+        setRosary,
     }
 }

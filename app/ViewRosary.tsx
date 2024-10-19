@@ -2,19 +2,19 @@ import { View, Text, Pressable, StyleSheet, ImageBackground } from "react-native
 // import {begningOrder, endOrder, prays, praysNames, misterys} from "@/constants/Prays";
 import Getpray from "@/constants/Prays";
 import { useState } from "react";
+import MenuScreenManager from "@/hooks/MenuScreenManager";
+import { router } from "expo-router";
 
 export interface ViewRosaryProps {
-    misteryName: string,
-    endPray: (screen: string) => void
 }
 
 const prayOrder = new Getpray()
 
 
-export default function ViewRosary(props: ViewRosaryProps) {
+export default function ViewRosary() {
     const imageBackground = require('@/assets/images/NossaSenhora.jpeg')
 
-    prayOrder.mistery = props.misteryName
+    prayOrder.mistery = MenuScreenManager().rosary
     
     const [misteryText, setMisteryText] = useState(prayOrder.misteryText)
     const [pray, setPray] = useState(prayOrder.pray)
@@ -27,8 +27,15 @@ export default function ViewRosary(props: ViewRosaryProps) {
             setPray(prayOrder.pray)
             setPrayName(prayOrder.prayName)
         } else {
-            props.endPray('Menu')
+            router.replace('/')
         }
+    }
+
+    function previousPray() {
+        prayOrder.PreviousPray()
+        setMisteryText(prayOrder.misteryText)
+        setPray(prayOrder.pray)
+        setPrayName(prayOrder.prayName)
     }
 
     return (
@@ -41,7 +48,7 @@ export default function ViewRosary(props: ViewRosaryProps) {
                 {pray}
             </Text>
             <View style={styles.container}>
-                <Pressable style={[styles.buttonBackward, styles.buttons]} onPress={() => previewsPray()}>
+                <Pressable style={[styles.buttonBackward, styles.buttons]} onPress={() => previousPray()}>
                     <Text style={styles.buttonsText} >Anterior</Text>
                 </Pressable>
                 <Pressable style={[styles.buttonFoward, styles.buttons]} onPress={() => nextPray()}>

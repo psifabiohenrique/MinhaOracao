@@ -3,7 +3,6 @@ import { Pressable, StyleSheet, Text } from "react-native";
 
 export interface btnChoiceProps {
     text: string,
-    onPress: Function
 }
 
 export default function BtnChoice(props: btnChoiceProps) {
@@ -15,7 +14,7 @@ export default function BtnChoice(props: btnChoiceProps) {
         //     <Text style={styles.text}>{text}</Text>
         // </Pressable>
 
-        <Pressable style={styles.container} onPress={() => props.onPress()}>
+        <Pressable style={styles.container}>
             <Text style={styles.text}>{props.text}</Text>
         </Pressable>
     )
