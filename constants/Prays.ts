@@ -3,6 +3,7 @@ export default class Getpray {
     misterysDones: [string[], string[], string[], string[], string[]]
     endDones: string[]
 
+
     begningOrder: string[]
     endOrder: string[]
 
@@ -94,10 +95,66 @@ export default class Getpray {
         this.prayStatus = 'begining'
         this.prayFinished = false
 
-        this.nextPray()
+        this.nextPray(0)
     }
 
-    nextPray() {
+    nextPray(ID: number) {
+        if (ID <= 8) { // Do ID 0 ao 8 é o início do terço
+
+            let index = this.begningOrder[ID]
+            this.misteryText = ''
+            if (ID == 4) {
+                this.misteryText = '1ª Ave Maria'
+            } else if (ID == 5) {
+                this.misteryText = '2ª Ave Maria'
+            } else if (ID == 6) {
+                this.misteryText = '3ª Ave Maria'
+            }
+            this.pray = this.prays[index]
+            this.prayName = this.praysNames[index]
+
+        } else if (ID <= 100) {
+            let idInMistery = ID - 8
+            let index = 0
+            for (index; index < 5; index++) {
+                if(idInMistery > 13) {
+                    idInMistery -= 13
+                } else {
+                    break
+                }
+            }
+
+            if (idInMistery == 0) {
+                this.misteryText = `${index + 1}º Mistério`
+                this.pray = this.misterys[this.mistery][index]
+                this.prayName = this.praysNames["paiNosso"]
+            }
+            if(idInMistery == 1) {
+                this.misteryText = `${index + 1}º Mistério`
+                this.pray = this.prays["paiNosso"]
+                this.prayName = this.praysNames["paiNosso"]
+            } else if (idInMistery == 12) {
+                this.misteryText = `${index + 1}º Mistério`
+                this.pray = this.prays["gloriaAoPai"]
+                this.prayName = this.praysNames["gloriaAoPai"]
+            } else if(idInMistery == 13) {
+                this.misteryText = `${index + 1}º Mistério`
+                this.pray = this.prays["ohMeuJesus"]
+                this.prayName = this.praysNames["ohMeuJesus"]
+            } else { // Ave marias
+                this.misteryText = `${index + 1}º Mistério`
+                this.pray = this.prays["aveMaria"]
+                this.prayName = this.praysNames[`${idInMistery - 1}ª Ave Maria`]
+            }
+
+        } else {
+
+        }
+    }
+    PreviousPray(){
+
+    }
+    nextPrayBackup() {
        
         if(this.endDones.length == this.endOrder.length) {
             this.prayFinished = true
@@ -167,82 +224,4 @@ export default class Getpray {
         this.prayName = this.prayName
         this.misteryText = this.misteryText
     }
-    PreviousPray() {
-       
-        if(this.endDones.length == this.endOrder.length) {
-            this.prayFinished = true
-        }
-
-        let prayIndex = ''
-        let prayNumber = 0
-
-        // First part of the rosary
-        if(this.prayStatus == 'begining') {
-            prayIndex = this.begningOrder[this.begningDones.length]
-            this.pray = this.prays[prayIndex]
-            if(prayIndex == 'aveMaria') {
-                this.prayName = `${this.initialHailMary}ª - ${this.praysNames[prayIndex]}`
-                this.initialHailMary++
-            } else this.prayName = this.praysNames[prayIndex]
-            this.begningDones.push(this.prayName)
-            if(this.begningDones.length == this.begningOrder.length) {
-                this.prayStatus = 'mistery'
-            }
-        }
-        // Second part of the rosary
-        else if(this.prayStatus == 'mistery') {
-            
-            for(let i = 0; i < this.misterysDones.length; i++){
-                let array = this.misterysDones[i]
-                if(array.length <= 11) {
-                    if(array.length == 1) {
-                        prayIndex = 'paiNosso'
-                        this.prayName = `${this.praysNames[prayIndex]}`
-                        
-                    } else if(array.length == 0) {
-                        this.pray = this.misterys[this.mistery][i]
-                        this.prayName = 'Contemplação'
-                        this.misterysDones[i].push(this.prayName)
-                        this.MisteryHailMary = 1
-                        this.misteryText = `${i + 1}° mistério`
-                        break
-                    } else {
-                        prayIndex = 'aveMaria'
-                        prayNumber = array.length
-                        this.prayName = `${this.MisteryHailMary}ª - ${this.praysNames[prayIndex]}`
-                        this.MisteryHailMary++
-                    }
-                    this.pray = this.prays[prayIndex]
-                    this.misteryText = `${i + 1}° mistério`
-                    this.misterysDones[i].push(this.prayName)
-
-                    if(this.misterysDones[4].length == 12) {
-                        this.misteryText = ''
-                        this.prayStatus = 'end'
-                    }
-                    break
-                }
-            }
-        }  
-        // thrird part of the rosary
-        else if(this.prayStatus == 'end') {
-            if (this.endDones.length >= 0) {
-                prayIndex = this.endOrder[this.endDones.length - 1]
-                this.pray = this.prays[prayIndex]
-                this.prayName = this.praysNames[prayIndex]
-                this.endDones.push(this.prayName)
-            } else {
-                this.prayStatus = 'mistery'
-            }
-        }
-        
-        // update variables
-        this.pray = this.pray
-        this.prayName = this.prayName
-        this.misteryText = this.misteryText
-    }
 }
-
-
-
-

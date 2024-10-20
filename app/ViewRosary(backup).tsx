@@ -3,7 +3,7 @@ import { View, Text, Pressable, StyleSheet, ImageBackground } from "react-native
 import Getpray from "@/constants/Prays";
 import { useState } from "react";
 import MenuScreenManager from "@/hooks/MenuScreenManager";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 
 export interface ViewRosaryProps {
 }
@@ -14,7 +14,13 @@ const prayOrder = new Getpray()
 export default function ViewRosary() {
     const imageBackground = require('@/assets/images/NossaSenhora.jpeg')
 
-    prayOrder.mistery = MenuScreenManager().rosary
+    const {rosary} = useLocalSearchParams()
+
+    if (typeof rosary === "string") {
+        prayOrder.mistery = rosary
+    } else {
+        prayOrder.mistery = "Doloroso"
+    }
     
     const [misteryText, setMisteryText] = useState(prayOrder.misteryText)
     const [pray, setPray] = useState(prayOrder.pray)
