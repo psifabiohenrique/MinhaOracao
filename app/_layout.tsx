@@ -9,7 +9,7 @@ export default function RootLayout() {
     <Stack screenOptions={{headerShown: true}}>
       <Stack.Screen name="index" options={{title: "Minha Oração"}}/>
       <Stack.Screen name="ViewMenu" options={{title: "Rosário"}}/>
-      <Stack.Screen name="ViewRosary" options={{title: "Santo Terço"}}/>
+      <Stack.Screen name="ViewRosary/[id]" options={{title: "Santo Terço", headerShown: false}}/>
     </Stack>
   );
 }

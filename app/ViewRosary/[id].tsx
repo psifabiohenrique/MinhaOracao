@@ -1,9 +1,8 @@
 import { View, Text, StyleSheet, ImageBackground, Pressable } from "react-native";
 // import {begningOrder, endOrder, prays, praysNames, misterys} from "@/constants/Prays";
 import Getpray from "@/constants/Prays";
-import { useState } from "react";
-import MenuScreenManager from "@/hooks/MenuScreenManager";
-import { Link, useLocalSearchParams } from "expo-router";
+import { Link, router, useLocalSearchParams } from "expo-router";
+import { useEffect } from "react";
 
 export interface ViewRosaryProps {
 }
@@ -28,12 +27,23 @@ export default function ViewRosary() {
         prayOrder.nextPray(0)
     }
     
-    console.log(id)
+
+    useEffect(() => {
+        if (prayOrder.prayFinished) {
+            prayOrder.prayFinished = false
+            router.navigate("/")
+        }
+    })
 
 
-    const [misteryText, setMisteryText] = useState(prayOrder.misteryText)
-    const [pray, setPray] = useState(prayOrder.pray)
-    const [prayName, setPrayName] = useState(prayOrder.prayName)
+
+    // const [misteryText, setMisteryText] = useState(prayOrder.misteryText)
+    // const [pray, setPray] = useState(prayOrder.pray)
+    // const [prayName, setPrayName] = useState(prayOrder.prayName)
+
+    const misteryText = prayOrder.misteryText
+    const pray = prayOrder.pray
+    const prayName = prayOrder.prayName
 
 
     return (
@@ -85,7 +95,7 @@ const styles = StyleSheet.create({
     textPray: {
         marginHorizontal: 50,
         padding:20,
-        fontSize: 20,
+        fontSize: 18,
         color: 'white',
         backgroundColor: '#000',
         opacity: 0.7,
